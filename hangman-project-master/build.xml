@@ -1,0 +1,46 @@
+<project name="hangman-project" default="jarfile">
+
+    <presetdef name="javac">
+        <javac includeantruntime="false" />
+    </presetdef>
+
+    <target name="init">
+        <property name="project.name" value="hangman-project"/>
+        <property name="src.dir" value="src"/>
+        <property name="main.class" value="org.academiadecodigo.bootcamp.Main"/>
+        <property name="build.dir" value="build"/>
+        <property name="classes.dir" value="${build.dir}/classes"/>
+        <property name="resources.dir" value="resources"/>
+        <property name="lib.dir" value="lib"/>
+        <path id="classpath">
+            <fileset dir="${lib.dir}"/>
+        </path>
+    </target>
+
+    <target name="prepare" description="Creates the build and classes directories" depends="init">
+        <mkdir dir="${classes.dir}"/>
+    </target>
+
+    <target name="compile" description="Compiles the source code" depends="prepare">
+        <javac srcdir="${src.dir}" destdir="${classes.dir}" source="7" target="7">
+            <classpath refid="classpath"/>
+        </javac>
+    </target>
+
+    <target name="clean" description="Clean up" depends="init">
+        <delete dir="${build.dir}"/>
+    </target>
+
+    <target name="jarfile" description="Archives the code" depends="compile">
+        <jar destfile="build/hangman-project.jar" basedir="build/classes">
+            <manifest>
+                <attribute name="Main-Class" value="org.academiadecodigo.bootcamp.Main" />
+                <attribute name="Class-Path" value="${lib.dir}"/>
+            </manifest>
+            <zipgroupfileset dir="${lib.dir}"/>
+            <fileset dir="${resources.dir}"/>
+        </jar>
+    </target>
+
+
+</project>
